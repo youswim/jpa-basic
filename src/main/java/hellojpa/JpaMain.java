@@ -12,18 +12,14 @@ public class JpaMain {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 
+        Member member = new Member();
+        member.setId(3L);
+        member.setRoleType(RoleType.GUEST);
+
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         try {
-//            Member member = new Member();
-//            member.setId(1L);
-//            member.setName("HelloA");
-//            em.persist(member);
-            List<Member> result
-                    = em.createQuery("select m from Member as m", Member.class).getResultList();
-            for (Member member : result) {
-                System.out.println("member.name = " + member.getName());
-            }
+            em.persist(member);
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
