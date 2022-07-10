@@ -1,10 +1,7 @@
 package chap5page1;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Member {
@@ -17,8 +14,17 @@ public class Member {
     @Column(name = "USER_NAME")
     private String name;
 
-    @Column(name = "TEAM_ID")
-    private Long teamId;
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 
     public Long getId() {
         return id;
@@ -36,12 +42,20 @@ public class Member {
         this.name = name;
     }
 
-    public Long getTeamId() {
-        return teamId;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeamId(Long teamId) {
-        this.teamId = teamId;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
+@Override
+public String toString() {
+    return "Member{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", team=" + team +
+            '}';
+}
 }
