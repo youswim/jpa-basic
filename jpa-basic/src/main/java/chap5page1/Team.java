@@ -6,8 +6,6 @@ import java.util.List;
 
 @Entity
 public class Team {
-
-
     @Id
     @GeneratedValue
     @Column(name = "TEAM_ID")
@@ -16,7 +14,8 @@ public class Team {
     @Column(name = "TEAM_NAME")
     private String name;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
     private List<Member> members = new ArrayList<>();
 
     public Long getId() {
@@ -43,12 +42,12 @@ public class Team {
         this.members = members;
     }
 
-@Override
-public String toString() {
-    return "Team{" +
-            "id=" + id +
-            ", name='" + name + '\'' +
-            ", members=" + members +
-            '}';
-}
+//@Override
+//public String toString() {
+//    return "Team{" +
+//            "id=" + id +
+//            ", name='" + name + '\'' +
+//            ", members=" + members +
+//            '}';
+//}
 }
