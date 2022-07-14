@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
     @Id
     @GeneratedValue
     @Column(name = "MEMBER_ID")
@@ -16,7 +16,7 @@ public class Member {
     @Column(name = "USER_NAME")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
     private Team team;
 
@@ -47,7 +47,31 @@ public class Member {
         this.name = name;
     }
 
-//@Override
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
+
+    public List<MemberProduct> getMemberProducts() {
+        return memberProducts;
+    }
+
+    public void setMemberProducts(List<MemberProduct> memberProducts) {
+        this.memberProducts = memberProducts;
+    }
+
+    //@Override
 //public String toString() {
 //    return "Member{" +
 //            "id=" + id +

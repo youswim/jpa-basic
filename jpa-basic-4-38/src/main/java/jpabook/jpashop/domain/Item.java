@@ -6,7 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+// 상속을 위한 어노테이션
+// 상속은 단일 테이블 전략
+@DiscriminatorColumn
+// 기본값인 DTYPE 사용
+public abstract class Item extends BaseEntity {
+    // Item 테이블을 단독으로 만드는 경우가 없다고 가정 => abstract
 
     @Id
     @GeneratedValue

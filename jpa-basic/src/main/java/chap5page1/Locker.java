@@ -1,6 +1,7 @@
 package chap5page1;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Locker {
@@ -14,4 +15,5 @@ public class Locker {
 
     @OneToOne(mappedBy = "locker")
     private Member member;
+
 }
