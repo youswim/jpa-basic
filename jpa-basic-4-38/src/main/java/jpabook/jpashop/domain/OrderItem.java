@@ -15,14 +15,14 @@ public class OrderItem {
 //    private Long orderId;
 //    객체의 참조로 대체한 코드
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ORDER_ID")
     private Order order;
 
 //    @Column(name = "ITEM_ID")
 //    private Long itemId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ITEM_ID")
     private Item item;
 

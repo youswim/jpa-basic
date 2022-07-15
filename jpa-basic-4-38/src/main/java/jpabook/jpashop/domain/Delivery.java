@@ -1,9 +1,6 @@
 package jpabook.jpashop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Delivery {
@@ -17,6 +14,6 @@ public class Delivery {
     private String zipcode;
     private DeliveryStatus deliveryStatus;
 
-    @OneToOne(mappedBy = "delivery") // 1:1 양방향 연관관계
+    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY) // 1:1 양방향 연관관계
     private Order order;
 }
