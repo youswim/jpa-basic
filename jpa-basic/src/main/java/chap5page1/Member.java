@@ -2,9 +2,10 @@ package chap5page1;
 
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Member extends BaseEntity{
@@ -35,6 +36,27 @@ public class Member extends BaseEntity{
 
     @Embedded
     private Address homeAddress;
+
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+        @JoinColumn(name = "MEMBER_ID")
+    )
+    @Column(name = "FOOD_NAME")
+    // String 하나만 사용하기 때문에 이름을 예외적으로 Column 이름을 붙여줄 수 있다.
+    // Address는 임베디드 클래스의 필드 명을 그대로 사용한다.
+    private Set<String> favoriteFoods = new HashSet<>();
+    // 컬렉션 하위의 클래스들은 모두 사용 가능!
+
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESSES", joinColumns =
+//        @JoinColumn(name = "MEMBER_ID")
+//    )
+//    private List<Address> addressHistory = new ArrayList<>();
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressHistory> addressHistory = new ArrayList<>();
 
     @Embedded
     @AttributeOverrides({
@@ -98,6 +120,30 @@ public class Member extends BaseEntity{
 
     public void setHomeAddress(Address homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public Address getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(Address workAddress) {
+        this.workAddress = workAddress;
+    }
+
+    public List<AddressHistory> getAddressHistory() {
+        return addressHistory;
+    }
+
+    public void setAddressHistory(List<AddressHistory> addressHistory) {
+        this.addressHistory = addressHistory;
     }
 
     //@Override

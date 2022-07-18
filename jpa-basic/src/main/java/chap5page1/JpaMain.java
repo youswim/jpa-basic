@@ -7,7 +7,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
 
@@ -20,14 +22,35 @@ public class JpaMain {
         tx.begin();
         try {
 
-Address address = new Address("city", "street", "10");
-Member member = new Member();
-member.setHomeAddress(address);
-em.persist(member);
 
-Address newAddress = new Address("newCity", address.getStreet(), address.getZipcode());
-member.setHomeAddress(newAddress);
+            Member member = new Member();
+            Address homeAddress = new Address("city", "street", "10");
+            member.setName("member1");
+            member.setHomeAddress(homeAddress);
 
+            AddressHistory old1 = new AddressHistory("old1", "street", "10");
+            AddressHistory old2 = new AddressHistory("old2", "street", "10");
+
+            List<AddressHistory> addressHistory = member.getAddressHistory();
+            addressHistory.add(old1);
+            addressHistory.add(old2);
+            em.persist(member);
+
+//            em.flush();
+//            em.clear();
+//
+//            System.out.println("=============================");
+//            Member findMember = em.find(Member.class, member.getId());
+//
+//            Address a = findMember.getHomeAddress();
+//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
+//
+//            findMember.getFavoriteFoods().remove("치킨"); // remove(Object o)
+//            findMember.getFavoriteFoods().add("한식");
+//
+//            findMember.getAddressHistory().remove(new Address("old1", "street", "10"));
+//            // remove(Object o). equals, hashCode 메서드가 제대로 만들어져있지 않으면 제대로 동작 X
+//            findMember.getAddressHistory().add(new Address("newCity", "street", "10000"));
 
             tx.commit();
 
