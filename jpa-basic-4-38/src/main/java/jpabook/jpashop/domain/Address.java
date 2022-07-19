@@ -1,5 +1,4 @@
-package chap5page1;
-
+package jpabook.jpashop.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,17 +7,15 @@ import java.util.Objects;
 @Embeddable
 public class Address {
 
+    @Column(length = 10)
     private String city;
+    @Column(length = 20)
     private String street;
+    @Column(length = 5)
     private String zipcode;
 
-    public Address() {
-    }
-
-    public Address(String city, String street, String zipcode) {
-        this.city = city;
-        this.street = street;
-        this.zipcode = zipcode;
+    public String fullAddress() {
+        return getCity() + " " + getStreet() + " " + getZipcode();
     }
 
     public String getCity() {
@@ -33,6 +30,7 @@ public class Address {
         return zipcode;
     }
 
+
     private void setCity(String city) {
         this.city = city;
     }
@@ -44,7 +42,6 @@ public class Address {
     private void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-
 
     @Override
     public boolean equals(Object o) {

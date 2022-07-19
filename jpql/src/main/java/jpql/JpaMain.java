@@ -1,11 +1,8 @@
-package chap5page1;
+package jpql;
 
 import org.hibernate.Hibernate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -25,10 +22,26 @@ public class JpaMain {
         tx.begin();
         try {
 
+        Team team = new Team();
+        team.setName("teamA");
+        em.persist(team);
+
+        Member member = new Member();
+        member.setUsername("member1");
+        member.setAge(10);
+        member.setType(MemberType.ADMIN);
+        member.changeTeam(team);
+
+        em.persist(member);
+        em.flush();
+        em.clear();
+
+List<String> resultList = em.createQuery(
+        "select nullif(m.username, 'admin') from Member m", String.class).getResultList();
+System.out.println("resultList = " + resultList.get(0));
 
 
-
-            tx.commit();
+        tx.commit();
 
         } catch (Exception e) {
             tx.rollback();
@@ -39,12 +52,5 @@ public class JpaMain {
         emf.close();
     }
 
-    private static void printMember(Member member) {
-        System.out.println("member.getName() = " + member.getName());
-    }
 
-    private static void printMemberAndTeam(Member member) {
-        System.out.println("member.getName() = " + member.getName());
-        System.out.println("member.getTeam().getName() = " + member.getTeam().getName());
-    }
 }
