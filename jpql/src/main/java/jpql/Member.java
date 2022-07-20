@@ -75,4 +75,13 @@ public class Member {
     public void setType(MemberType type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", team=" + team +
+                '}';
+    }
 }

@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -22,26 +23,52 @@ public class JpaMain {
         tx.begin();
         try {
 
-        Team team = new Team();
-        team.setName("teamA");
-        em.persist(team);
+            Team team1 = new Team();
+            team1.setName("teamA");
+            em.persist(team1);
 
-        Member member = new Member();
-        member.setUsername("member1");
-        member.setAge(10);
-        member.setType(MemberType.ADMIN);
-        member.changeTeam(team);
+            Team team2 = new Team();
+            team2.setName("teamB");
+            em.persist(team2);
 
-        em.persist(member);
-        em.flush();
-        em.clear();
+            Team team3 = new Team();
+            team3.setName("teamC");
+            em.persist(team3);
 
-List<String> resultList = em.createQuery(
-        "select nullif(m.username, 'admin') from Member m", String.class).getResultList();
-System.out.println("resultList = " + resultList.get(0));
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setTeam(team1);
+            em.persist(member1);
+
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setTeam(team1);
+            em.persist(member2);
+
+            Member member3 = new Member();
+            member3.setUsername("member3");
+            member3.setTeam(team2);
+            em.persist(member3);
+
+            Member member4 = new Member();
+            member4.setUsername("member1");
+            em.persist(member4);
+
+            em.flush();
+            em.clear();
+
+            String query = "select t from Team t join t.members";
+            List<Team> Teams = em.createQuery(query, Team.class).getResultList();
+
+            for (Team team : Teams) {
+                System.out.println("team.getName() = " + team.getName());
+                for (Member member : team.getMembers()) {
+                    System.out.println(member);
+                }
+            }
 
 
-        tx.commit();
+            tx.commit();
 
         } catch (Exception e) {
             tx.rollback();
